@@ -40,7 +40,7 @@ export function SignupForm() {
   };
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-lg">
       <CardHeader>
         <CardTitle>회원가입</CardTitle>
         <CardDescription>새 계정을 만드세요</CardDescription>

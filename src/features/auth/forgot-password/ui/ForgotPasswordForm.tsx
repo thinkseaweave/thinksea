@@ -25,7 +25,7 @@ export function ForgotPasswordForm() {
 
   if (success) {
     return (
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-lg">
         <CardHeader>
           <CardTitle>이메일 전송 완료</CardTitle>
           <CardDescription>비밀번호 재설정 링크가 전송되었습니다</CardDescription>
@@ -72,7 +72,7 @@ export function ForgotPasswordForm() {
   }
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-lg">
       <CardHeader>
         <CardTitle>비밀번호 찾기</CardTitle>
         <CardDescription>

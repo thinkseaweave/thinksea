@@ -58,7 +58,7 @@ export function ResetPasswordForm() {
 
   if (success) {
     return (
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-lg">
         <CardHeader>
           <CardTitle>비밀번호 재설정 완료</CardTitle>
           <CardDescription>비밀번호가 성공적으로 변경되었습니다.</CardDescription>
@@ -73,7 +73,7 @@ export function ResetPasswordForm() {
   }
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-lg">
       <CardHeader>
         <CardTitle>비밀번호 재설정</CardTitle>
         <CardDescription>새로운 비밀번호를 입력하세요</CardDescription>

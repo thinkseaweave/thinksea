@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import reactLogo from '@/shared/assets/react.svg'
 import viteLogo from '/vite.svg'
 import '@/app/styles/App.css'
-import { Button } from "@/shared/ui/button"
+import { Button, ModeToggle } from "@/shared/ui"
 import { authApi, type User } from '@/entities/user'
 
 function App() {
@@ -50,6 +50,7 @@ function App() {
   return (
     <>
       <div className="absolute top-4 right-4 flex gap-2 items-center">
+        <ModeToggle />
         {isLoading ? (
           <Button disabled>로딩 중...</Button>
         ) : user ? (

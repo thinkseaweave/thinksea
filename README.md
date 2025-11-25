@@ -11,6 +11,7 @@ React + TypeScript + Vite 프로젝트로 FSD (Feature-Sliced Design) 아키텍�
 - **Vite** - 빌드 도구 (Rolldown-Vite 사용)
 - **Tailwind CSS v4** - 스타일링
 - **shadcn/ui** - UI 컴포넌트
+- **next-themes** - 다크모드 테마 관리
 - **Supabase** - 인증 및 백엔드
 - **React Router** - 라우팅
 - **FSD** - 아키텍처 패턴
@@ -164,6 +165,10 @@ Supabase 인증 설정에 대한 자세한 내용은 [SETUP.md](./SETUP.md)를 �
 - **shadcn/ui**: 모던하고 접근성이 좋은 컴포넌트
   - Card, Input, Label, Button 등
 - **Tailwind CSS v4**: 유틸리티 우선 스타일링
+- **다크모드**: next-themes 기반 테마 시스템
+  - 시스템 설정 자동 감지
+  - 사용자 선택 localStorage 저장
+  - 모든 컴포넌트 자동 테마 적용
 - **반응형 디자인**: 모바일 친화적인 레이아웃
 
 ### 🏗️ 아키텍처
