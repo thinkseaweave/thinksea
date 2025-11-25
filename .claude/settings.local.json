@@ -8,7 +8,9 @@
       "Bash(nvm use v22.14.0)",
       "Bash(npm install:*)",
       "Bash(pnpm --version:*)",
-      "Bash(pnpm dev)"
+      "Bash(pnpm dev)",
+      "Bash(mkdir:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,49 +1,82 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '@/entities/user';
 import { Button, Input, Label, Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/shared/ui';
 
-export function SignupForm() {
+export function ResetPasswordForm() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    // Check if we have a valid session (user came from reset password email)
+    const checkSession = async () => {
+      try {
+        const user = await authApi.getCurrentUser();
+        if (!user) {
+          setError('유효하지 않은 비밀번호 재설정 링크입니다.');
+        }
+      } catch (err) {
+        setError('유효하지 않은 비밀번호 재설정 링크입니다.');
+      }
+    };
+    checkSession();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
-    if (password !== confirmPassword) {
-      setError('비밀번호가 일치하지 않습니다');
+    // Validation
+    if (password.length < 6) {
+      setError('비밀번호는 최소 6자 이상이어야 합니다.');
       return;
     }
 
-    if (password.length < 6) {
-      setError('비밀번호는 최소 6자 이상이어야 합니다');
+    if (password !== confirmPassword) {
+      setError('비밀번호가 일치하지 않습니다.');
       return;
     }
 
     setIsLoading(true);
 
     try {
-      await authApi.signUp({ email, password });
-      // 회원가입 성공 후 이메일 확인 안내
-      alert('회원가입이 완료되었습니다. 이메일을 확인해주세요.');
-      navigate('/auth/login');
+      await authApi.updatePassword(password);
+      setSuccess(true);
+      setTimeout(() => {
+        navigate('/auth/login');
+      }, 2000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred during signup');
+      setError(err instanceof Error ? err.message : '비밀번호 재설정 중 오류가 발생했습니다.');
     } finally {
       setIsLoading(false);
     }
   };
 
+  if (success) {
+    return (
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle>비밀번호 재설정 완료</CardTitle>
+          <CardDescription>비밀번호가 성공적으로 변경되었습니다.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="p-3 text-sm text-green-600 bg-green-50 border border-green-200 rounded-md">
+            새 비밀번호로 로그인해주세요. 로그인 페이지로 이동합니다...
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle>회원가입</CardTitle>
-        <CardDescription>새 계정을 만드세요</CardDescription>
+        <CardTitle>비밀번호 재설정</CardTitle>
+        <CardDescription>새로운 비밀번호를 입력하세요</CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
@@ -53,19 +86,7 @@ export function SignupForm() {
             </div>
           )}
           <div className="space-y-2">
-            <Label htmlFor="email">이메일</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="name@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              disabled={isLoading}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">비밀번호</Label>
+            <Label htmlFor="password">새 비밀번호</Label>
             <Input
               id="password"
               type="password"
@@ -74,7 +95,9 @@ export function SignupForm() {
               onChange={(e) => setPassword(e.target.value)}
               required
               disabled={isLoading}
+              minLength={6}
             />
+            <p className="text-xs text-muted-foreground">최소 6자 이상</p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="confirmPassword">비밀번호 확인</Label>
@@ -86,17 +109,17 @@ export function SignupForm() {
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
               disabled={isLoading}
+              minLength={6}
             />
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? '가입 중...' : '회원가입'}
+            {isLoading ? '변경 중...' : '비밀번호 변경'}
           </Button>
           <div className="text-sm text-center text-muted-foreground">
-            이미 계정이 있으신가요?{' '}
             <a href="/auth/login" className="text-primary hover:underline">
-              로그인
+              로그인으로 돌아가기
             </a>
           </div>
         </CardFooter>

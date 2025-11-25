@@ -135,15 +135,30 @@ Supabase 인증 설정에 대한 자세한 내용은 [SETUP.md](./SETUP.md)를 �
 ## 주요 기능
 
 ### 🔐 인증 시스템
-- **회원가입**: 이메일/비밀번호 기반 회원가입
+- **회원가입** (`/auth/signup`): 이메일/비밀번호 기반 회원가입
   - 비밀번호 확인 검증
   - 이메일 인증 (Supabase 자동 발송)
   - 입력 유효성 검사
-- **로그인**: Supabase Auth를 통한 안전한 인증
+- **로그인** (`/auth/login`): Supabase Auth를 통한 안전한 인증
   - 세션 관리
   - 에러 핸들링
   - 자동 리다이렉션
+- **비밀번호 찾기** (`/auth/forgot-password`): 이메일로 재설정 링크 전송
+  - 이메일 주소 입력
+  - Supabase를 통한 안전한 재설정 링크 발송
+  - 상세한 안내 메시지
+- **비밀번호 재설정** (`/auth/reset-password`): 새 비밀번호 설정
+  - 이메일 링크를 통한 안전한 인증
+  - 비밀번호 확인 검증
+  - 자동 로그인 페이지 리다이렉션
 - **보안**: Row Level Security (RLS) 지원
+
+#### 인증 플로우
+```
+회원가입 → 이메일 확인 → 로그인
+                          ↓
+                    비밀번호 찾기 → 이메일 확인 → 비밀번호 재설정 → 로그인
+```
 
 ### 🎨 UI/UX
 - **shadcn/ui**: 모던하고 접근성이 좋은 컴포넌트
@@ -166,9 +181,16 @@ Supabase 인증 설정에 대한 자세한 내용은 [SETUP.md](./SETUP.md)를 �
 
 ## 주요 페이지
 
+### 메인
 - **홈**: http://localhost:5173/
-- **로그인**: http://localhost:5173/login
-- **회원가입**: http://localhost:5173/signup
+
+### 인증 (Auth)
+- **로그인**: http://localhost:5173/auth/login
+- **회원가입**: http://localhost:5173/auth/signup
+- **비밀번호 찾기**: http://localhost:5173/auth/forgot-password
+- **비밀번호 재설정**: http://localhost:5173/auth/reset-password
+
+> 💡 레거시 경로(`/login`, `/signup`)도 호환성을 위해 지원됩니다.
 
 ## 기여하기
 

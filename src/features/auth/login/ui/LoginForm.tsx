@@ -51,7 +51,15 @@ export function LoginForm() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">비밀번호</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password">비밀번호</Label>
+              <a
+                href="/auth/forgot-password"
+                className="text-xs text-primary hover:underline"
+              >
+                비밀번호를 잊으셨나요?
+              </a>
+            </div>
             <Input
               id="password"
               type="password"
@@ -69,7 +77,7 @@ export function LoginForm() {
           </Button>
           <div className="text-sm text-center text-muted-foreground">
             계정이 없으신가요?{' '}
-            <a href="/signup" className="text-primary hover:underline">
+            <a href="/auth/signup" className="text-primary hover:underline">
               회원가입
             </a>
           </div>
