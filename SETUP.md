@@ -117,6 +117,72 @@ src/
 - 환경 변수를 통한 API 키 관리
 - Row Level Security (RLS) 지원
 
+## 가입된 사용자 데이터 확인
+
+### 방법 1: Authentication 대시보드 (추천)
+
+1. [Supabase Dashboard](https://supabase.com/dashboard) 접속
+2. 프로젝트 선택
+3. 왼쪽 메뉴에서 **Authentication** 클릭
+4. **Users** 탭 선택
+5. 모든 가입된 사용자 정보 확인:
+   - 이메일
+   - 가입 일시 (created_at)
+   - 마지막 로그인 시간 (last_sign_in_at)
+   - 이메일 확인 상태 (email_confirmed_at)
+   - User ID (UUID)
+
+### 방법 2: Table Editor
+
+1. 왼쪽 메뉴에서 **Table Editor** 클릭
+2. 스키마: `auth` 선택
+3. `users` 테이블에서 모든 사용자 데이터 확인
+
+### 방법 3: SQL Editor로 쿼리
+
+왼쪽 메뉴 **SQL Editor**에서 다음 쿼리 실행:
+
+```sql
+-- 모든 사용자 조회
+SELECT * FROM auth.users;
+
+-- 특정 정보만 조회
+SELECT
+  id,
+  email,
+  created_at,
+  last_sign_in_at,
+  email_confirmed_at
+FROM auth.users
+ORDER BY created_at DESC;
+
+-- 최근 가입한 사용자 5명
+SELECT
+  email,
+  created_at,
+  CASE
+    WHEN email_confirmed_at IS NOT NULL THEN '확인됨'
+    ELSE '미확인'
+  END as email_status
+FROM auth.users
+ORDER BY created_at DESC
+LIMIT 5;
+```
+
+### 사용자 관리
+
+**Authentication > Users** 페이지에서:
+- **Add user**: 사용자 수동 추가
+- **...** 메뉴: 사용자 삭제, 비밀번호 재설정 등
+
+### 개발 팁: 이메일 확인 비활성화
+
+테스트 중 이메일 확인을 건너뛰려면:
+
+1. **Authentication** > **Settings** 이동
+2. "Enable email confirmations" 체크 해제
+3. 이제 회원가입 시 즉시 로그인 가능
+
 ## 추가 개발 가이드
 
 ### 사용자 정보 가져오기
